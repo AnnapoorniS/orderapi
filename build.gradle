@@ -13,10 +13,21 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.5.3'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.5.3'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.3'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor:2.5.3'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	implementation 'org.springframework.kafka:spring-kafka:2.7.3'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	testCompileOnly 'org.projectlombok:lombok:1.18.20'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
+	testCompileOnly 'org.mockito:mockito-all:1.10.19'
+	testCompileOnly 'junit:junit:4.13.2'
 	testImplementation 'io.projectreactor:reactor-test:3.4.8'
 	testImplementation 'org.springframework.kafka:spring-kafka-test:2.7.3'
 }
