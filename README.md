@@ -1,4 +1,5 @@
-# Retail order processing API. [DOC](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
+# Retail order processing API. 
+#### - [API doc](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
 
 
 ### * API to post retail order request.
