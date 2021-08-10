@@ -1,9 +1,9 @@
 package com.retail.orderapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.retail.orderapi.models.Order;
 import com.retail.orderapi.models.OrderStatus;
+import com.retail.orderapi.models.OrderStatusResponse;
 import com.retail.orderapi.models.PlaceOrderResponse;
 import com.retail.orderapi.repository.MongoRepository;
 import com.retail.orderapi.services.MessageQueueService;
@@ -40,9 +40,6 @@ public class OrderControllerTest {
     @Mock
     MessageQueueService messageQueueService;
 
-    @Mock
-    ObjectMapper objectMapper;
-
     ObjectMapper mapper = new ObjectMapper();
 
     @Before
@@ -58,11 +55,10 @@ public class OrderControllerTest {
         Order order = new Order();
         order.setOrderId("123");
         order.setStatus(OrderStatus.PLACED);
-        ObjectNode jsonNodes = mapper.createObjectNode();
-        jsonNodes.put("orderId", order.getOrderId());
-        jsonNodes.put("status", String.valueOf(order.getStatus()));
+        OrderStatusResponse orderStatusResponse = new OrderStatusResponse();
+        orderStatusResponse.setOrderId(order.getOrderId());
+        orderStatusResponse.setStatus(order.getStatus());
         BDDMockito.given(mongoRepository.findById("123")).willReturn(java.util.Optional.of(order));
-        BDDMockito.given(objectMapper.createObjectNode()).willReturn(mapper.createObjectNode());
 
         //when
         MockHttpServletResponse response = mvc.perform(MockMvcRequestBuilders.get("/v1/order/status/123"))
@@ -70,7 +66,7 @@ public class OrderControllerTest {
 
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString().equals(mapper.writeValueAsString(jsonNodes)));
+        assertThat(response.getContentAsString().equals(mapper.writeValueAsString(orderStatusResponse)));
     }
 
     @Test
