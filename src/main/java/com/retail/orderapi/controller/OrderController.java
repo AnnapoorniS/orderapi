@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.retail.orderapi.models.Order;
 import com.retail.orderapi.models.OrderStatus;
+import com.retail.orderapi.models.OrderStatusResponse;
 import com.retail.orderapi.models.PlaceOrderResponse;
 import com.retail.orderapi.repository.MongoRepository;
 import com.retail.orderapi.services.MessageQueueService;
@@ -47,12 +48,12 @@ public class OrderController {
     }
 
     @GetMapping("status/{orderId}")
-    ResponseEntity<ObjectNode> getOrderStatus(@PathVariable String orderId) {
+    ResponseEntity<OrderStatusResponse> getOrderStatus(@PathVariable String orderId) {
         Optional<Order> order = mongoRepository.findById(orderId);
         if (order.isPresent()) {
-            ObjectNode orderStatusResponse = objectMapper.createObjectNode();
-            orderStatusResponse.put("orderId", order.get().getOrderId());
-            orderStatusResponse.put("status", String.valueOf(order.get().getStatus()));
+            OrderStatusResponse orderStatusResponse = new OrderStatusResponse();
+            orderStatusResponse.setOrderId(order.get().getOrderId());
+            orderStatusResponse.setStatus(order.get().getStatus());
             return new ResponseEntity<>(orderStatusResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
