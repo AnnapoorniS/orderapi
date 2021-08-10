@@ -45,7 +45,6 @@ public class KafkaService implements MessageQueueService {
             @Override
             public void onSuccess(SendResult<String, Order> result) {
                 logger.info("Successfully placed order for ID: " + order.getOrderId() + " to processing queue");
-                order.setStatus(OrderStatus.PLACED);
                 mongoRepository.insert(order);
             }
 

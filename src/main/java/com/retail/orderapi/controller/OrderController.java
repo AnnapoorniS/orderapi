@@ -37,6 +37,7 @@ public class OrderController {
     @Validated
     ResponseEntity<PlaceOrderResponse> placeOrder(@Valid @RequestBody Order order) {
         order.setOrderId(UUID.randomUUID().toString());
+        order.setStatus(OrderStatus.PLACED);
         logger.info("Processing order id: " + order.getOrderId() + " for user : " + order.getCustomerUserName());
         PlaceOrderResponse placeOrderResponse = messageQueueService.pushOrderToQueue(order);
         if (placeOrderResponse != null && placeOrderResponse.getStatus() == OrderStatus.PLACED) {

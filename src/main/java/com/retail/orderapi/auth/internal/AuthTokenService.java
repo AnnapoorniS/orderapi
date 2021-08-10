@@ -6,9 +6,9 @@ import com.retail.orderapi.models.UserTokenResponse;
 import com.retail.orderapi.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class AuthTokenService implements LoginService {
 
     @Value("${user.auth.secret}")
