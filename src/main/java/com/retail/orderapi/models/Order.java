@@ -29,4 +29,21 @@ public class Order implements Serializable {
     private long packingCost;
     private long tax;
     private long total;
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Order{" +
+                "orderId='" + orderId + '\'' +
+                ", customerUserName='" + customerUserName + '\'' +
+                ", status=" + status +
+                ", orderDate='" + orderDate + '\'' +
+                ", paymentMode=" + paymentMode +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", orderedItems=" + java.util.Arrays.toString(orderedItems) +
+                ", itemsTotalPrice=" + itemsTotalPrice +
+                ", packingCost=" + packingCost +
+                ", tax=" + tax +
+                ", total=" + total +
+                '}';
+    }
 }

@@ -37,7 +37,9 @@ public class KafkaService implements MessageQueueService {
     public PlaceOrderResponse pushOrderToQueue(Order order) {
 
         ListenableFuture<SendResult<String, Order>> future = kafkaTemplate.send(topicName, order);
-
+        placeOrderResponse.setStatus(OrderStatus.PLACED);
+        placeOrderResponse.setOrderTrackingId(order.getOrderId());
+        placeOrderResponse.setMessage("Successfully placed order for processing");
         future.addCallback(new ListenableFutureCallback<>() {
 
             @Override
@@ -45,19 +47,17 @@ public class KafkaService implements MessageQueueService {
                 logger.info("Successfully placed order for ID: " + order.getOrderId() + " to processing queue");
                 order.setStatus(OrderStatus.PLACED);
                 mongoRepository.insert(order);
-                placeOrderResponse.setStatus(OrderStatus.PLACED);
-                placeOrderResponse.setMessage("Successfully placed order for processing");
             }
 
             @Override
             public void onFailure(@NotNull Throwable exception) {
                 logger.error("Error while placing order with order ID: " + order.getOrderId() + " to processing queue. " + exception);
                 order.setStatus(OrderStatus.FAILED);
-                placeOrderResponse.setStatus(OrderStatus.FAILED);
-                placeOrderResponse.setMessage("Failed to place order");
+                mongoRepository.insert(order);
             }
         });
 
         return placeOrderResponse;
+
     }
 }

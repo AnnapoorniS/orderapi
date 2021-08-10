@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class PlaceOrderResponse {
-
+    String orderTrackingId;
     OrderStatus status;
     String message;
 }
